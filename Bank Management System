@@ -1,0 +1,710 @@
+#include<iostream>
+#include<stdlib.h>
+#include<conio.h>
+#include<windows.h>
+#include<string.h>
+
+using namespace std;
+
+class Bank
+ {
+private:
+    int acc_id;
+    string name;
+    string a;
+    string c;
+
+    int acc_type;
+    int adharno;
+     int phone;
+     int ct=0;
+     int sc=0;
+
+
+
+    string acc_pas;
+    string pas_ch;
+    int acc_dep;
+    int dep;
+    int amt;
+  //  int bal;
+    int w_amt;
+
+
+public :
+    int bal;
+
+   void  creat_acc();
+   void deposite();
+   void enquiry();
+   void withdraw();
+   int ps();
+   int pss();
+   void send();
+   void receive();
+   int getamt()
+   {
+       return amt;
+   }
+   int accbal()
+   {
+       return bal;
+   }
+   int abc_id()
+   {
+       return acc_id;
+
+   }
+   int ac_dep()
+   {
+       return acc_dep;
+   }
+   int ac_bal()
+   {
+       return bal;
+   }
+
+   string ac_pas()
+   {
+       if(ct==0)
+       return acc_pas;
+       else
+        return a;
+   }
+
+
+
+
+
+ int id(int id)
+ {
+   int counti=0;
+   while(id>0)
+   {
+       counti++;
+       id=id/10;
+   }
+  return counti;
+ }
+
+ void changepass();
+
+ int checkphone();
+
+ }user[10];
+
+
+ void Bank::creat_acc()
+ {
+  int m,y;
+  int x;
+  PlaySound("10.wav", NULL, SND_FILENAME | SND_ASYNC);
+
+    cout<<"*******************\n";
+    cout<<"Welcome to  BANK\n";
+    cout<<"********************\n\n";
+    id:
+    cout<<"\nEnter New Account Id:(4 Digit):";
+    cin>>acc_id;
+    m=id(acc_id);
+     if(m!=4)
+     {
+        PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+         cout<<"Account id should be 4 digit...try again";
+         goto id;
+     }
+
+    cout<<"Enter Account Holder's Name:";
+    cin>>name;
+    cout<<"Enter Aadhar Card Number";
+    cin>>adharno;
+    cout<<"Enter Your Phone No";
+    cin>>phone;
+    cout<<"Choose Account Type :\n";
+    cout<<"Press 1 : Saving Account \t press 2: Current Account....";
+    cin>>acc_type;
+
+pas:
+    cout<<"\nCreate Password for Account No:"<<acc_id<<":";
+    cin>>acc_pas;
+    cout<<"\nRetype Password Again:";
+    y=ps();
+    if(y==0)
+    {
+        PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<" Wrong  password...try again\n";
+        goto pas;
+    }
+
+
+
+  dep:
+
+   cout<<"\nNOTE : Deposit minimum 500 Rupess:\n";
+   cout<<"Enter Amount To Deposite:";
+   cin>>acc_dep;
+   if(acc_dep<500)
+   {
+      acc_dep=0;
+     PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+       cout<<"Less Amount ... Please deposit more than 500rs\n";
+       goto dep;
+   }
+   else if(acc_dep<=0)
+   {
+       acc_dep=0;
+     PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+       cout<<"Negative amount and zero not allowed\n";
+       goto dep;
+   }
+   else
+   {
+      x=ac_bal();
+     bal=x+acc_dep;
+     cout<<acc_dep<<" "<<bal<<" Rupees Deposited sucessfully\n"<<endl;
+
+     PlaySound("cong.wav", NULL, SND_FILENAME | SND_ASYNC);
+
+     cout<<"Account Created Sucessfully\n";
+   }
+
+
+
+system("pause");
+
+ }
+
+
+ void Bank::enquiry()
+ {
+    string pass,b;
+
+    cout<<"Enter Password:";
+    cin>>pass;
+
+    b=ac_pas();
+
+    if(b==pass)
+    {
+
+
+    cout<<"***BANK OF MAHARASTRA******\n\n";
+     cout<<"-----------------------------------------------\n";
+     cout<<"Account Id: "<<acc_id<<endl;
+
+     cout<<"Account Holder's Name :"<<name<<endl;
+      if(acc_type==1)
+     cout<<"Account Type : Saving Account\n";
+     else
+        cout<<"Account Type : Current Account\n";
+
+     cout<<"Available Balance : "<<bal<<endl;
+
+     cout<<"\n-------------------------------------------------\n";
+
+     system("pause");
+    }
+    else
+    {
+        cout<<"failed........";
+        system("pause");
+    }
+
+ }
+
+
+
+void Bank::deposite()
+{
+    int y;
+    int a_dep;
+
+    if(acc_type==1)
+    {
+        if(sc<=3)
+        {
+    cout<<"\nNote::You can perform only 3 transaction at one day\n";
+    cout<<"how many amount do u want to deposite\n";
+    cin>>a_dep;
+   m:
+    cout<<"\nEnter password\n";
+    if(ct==0)
+    y=ps();
+    else
+        y=pss();
+
+    if(y==1)
+    {
+        bal=bal+a_dep;
+
+        PlaySound("6.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<a_dep<<" \n\n\nAmount has  Been Deposited\n";
+        system("pause");
+    }
+    else
+    {
+        cout<<"Wrong password.....Failed\n\n";
+        PlaySound("11.wav", NULL, SND_FILENAME | SND_ASYNC);
+        goto m;
+    }
+    sc++;
+
+    }
+    else
+    {
+        cout<<"\nYou have Crossed today's Limit of trasnction\n";
+        system("pause");
+    }
+  }
+  else
+  {
+      cout<<"how many amount do u want to deposite\n";
+    cin>>a_dep;
+   n:
+    cout<<"\nEnter password\n";
+    if(ct==0)
+    y=ps();
+    else
+        y=pss();
+
+    if(y==1)
+    {
+        bal=bal+a_dep;
+
+        PlaySound("6.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<a_dep<<" \n\n\nAmount has  Been Deposited\n";
+        system("pause");
+    }
+    else
+    {
+        cout<<"Wrong password.....Failed\n\n";
+        PlaySound("11.wav", NULL, SND_FILENAME | SND_ASYNC);
+        goto n;
+    }
+  }
+}
+
+void Bank::send()
+{
+
+     int count=1,w;
+
+    int id;
+    string pass;
+
+wp:
+  cout<<"\n-------------------\n";
+ // cout<<"\nEnter Account Id:";
+//  cin>>id;
+  cout<<"\nEnter Password : ";
+  if(ct==0)
+  w=ps();
+  else
+    w=pss();
+  cout<<"\n----------------------\n";
+
+  if(w==1)
+  {
+  wa:
+    cout<<"Enter Amount To Transfer ";
+    cin>>amt;
+
+    if(amt>bal-500)
+    {
+      PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Insufficent Amount in Account....try again\n";
+        goto wa;
+    }
+
+    if(bal-amt<500)
+    {
+      PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"failed ....500 should remaining balance.....try again\n";
+        goto wa;
+    }
+    else if(amt<=0)
+    {
+        PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Negative rupess and zero rupees not allowed......try again\n";
+        goto wa;
+    }
+    else
+    {
+       bal=bal-amt;
+       PlaySound("9.wav", NULL, SND_FILENAME | SND_ASYNC);
+       cout<<amt<<" rs has been Transfered sucessful\n";
+
+    }
+  }
+  else
+  {
+      count++;
+      PlaySound("3.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Wrong Password..."<<4-count<<" chance remain \n";
+      if(count>2)
+      {
+          cout<<"Account has been Block for 24 Hours\n";
+           PlaySound("12.wav", NULL, SND_FILENAME | SND_ASYNC);
+
+          system("pause");
+          return;
+      }
+      goto wp;
+  }
+
+  system("pause");
+
+}
+
+ /*void Bank::receive()
+{
+
+ int x,y;
+
+  bal=bal+amt;
+
+  cout<<"Total bal="<<bal;
+  system("pause");
+
+}
+*/
+
+void Bank::withdraw()
+{
+    int count=1,w;
+
+    int id;
+    string pass;
+
+wp:
+  cout<<"\n-------------------\n";
+ // cout<<"\nEnter Account Id:";
+//  cin>>id;
+  cout<<"\nEnter Password : ";
+  if(ct==0)
+  w=ps();
+  else
+    w=pss();
+  cout<<"\n----------------------\n";
+
+  if(w==1)
+  {
+  wa:
+    cout<<"Enter Amount To withdraw ";
+    cin>>w_amt;
+
+    if(w_amt>bal-500)
+    {
+      PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Insufficent Amount in Account....try again\n";
+        goto wa;
+    }
+
+    if(bal-w_amt<500)
+    {
+      PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"failed ....500 should remaining balance.....try again\n";
+        goto wa;
+    }
+    else if(w_amt<=0)
+    {
+        PlaySound("5.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Negative rupess and zero rupees not allowed......try again\n";
+        goto wa;
+    }
+    else
+    {
+       bal=bal-w_amt;
+       PlaySound("9.wav", NULL, SND_FILENAME | SND_ASYNC);
+       cout<<w_amt<<" rs has been Withdraw sucessful\n";
+
+    }
+  }
+  else
+  {
+      count++;
+      PlaySound("3.wav", NULL, SND_FILENAME | SND_ASYNC);
+        cout<<"Wrong Password..."<<4-count<<" chance remain \n";
+      if(count>3)
+      {
+          cout<<"Account has been Block for 24 Hours\n";
+           PlaySound("12.wav", NULL, SND_FILENAME | SND_ASYNC);
+
+          system("pause");
+          return;
+      }
+      goto wp;
+  }
+
+  system("pause");
+
+}
+
+
+int Bank::checkphone()
+{
+      int y;
+      long long int x;
+
+    y=phone%10000;
+    return y;
+}
+
+void Bank::changepass()
+ {
+     int ad_no;
+     int x;
+     int b;
+     long long int p_no;
+
+
+     cout<<"Enter Aadhar card no:";
+     cin>>ad_no;
+
+     cout<<"Enter last four digit of phone no";
+     cin>>p_no;
+
+     x=checkphone();
+
+     if(ad_no==adharno&&x==p_no)
+     {
+         cout<<"Enter new password";
+         cin>>c;
+         cout<<"Comfirm password:";
+         b=pss();
+         if(b==1)
+         {
+             a=c;
+             ct++;
+             //cout<<"enter new password";
+           //  cin>>acc_pas;
+         //  acc_pas=a;
+
+             cout<<acc_pas<<"\nPassword Change Succesfully";
+             //cout<<name;
+             system("pause");
+
+         }
+     }
+     else
+     {
+         cout<<"Request Rejected....";
+         system("pause");
+
+     }
+ }
+
+
+ int Bank::pss()
+{
+    char acc_pass[55];
+
+
+    int i=0;
+    do{
+        acc_pass[i]=getch();
+        if(acc_pass[i]!='\r'){
+            cout<<"*";
+        }
+        i++;
+    }while(acc_pass[i-1]!='\r');
+     acc_pass[i-1]='\0';
+
+    if(acc_pass==c)
+        return 1;
+    else
+        return 0;
+    getch();
+}
+
+
+ int Bank::ps()
+{
+    char acc_pass[55];
+
+
+    int i=0;
+    do{
+        acc_pass[i]=getch();
+        if(acc_pass[i]!='\r'){
+            cout<<"*";
+        }
+        i++;
+    }while(acc_pass[i-1]!='\r');
+     acc_pass[i-1]='\0';
+
+    if(acc_pass==acc_pas)
+        return 1;
+    else
+        return 0;
+    getch();
+}
+main()
+ {
+    int x,n,i=0,ch,y,c,s,w,q;
+   //Bank user[5];
+   int a_no,a2_no;
+   int z;
+
+
+while(1)
+  {
+
+   system("CLS");
+   cout<<"\t\t************************\n";
+   cout<<"\t\t****MAHARATRESTA BANK****\n";
+   cout<<"\t\t--------------------------\n";
+
+    cout<<"\t\t1) NEW ACCOUNT \n";
+    cout<<"\t\t2) DEPOSITE MONEY \n";
+    cout<<"\t\t3) WITHDRAW MONEY \n";
+    cout<<"\t\t4) BALANCE ENQUIRY \n";
+    cout<<"\t\t5) CHANGE PASSWORD\n";
+    cout<<"\t\t6) TRANSFER MONEY\n";
+    cout<<"\t\t7) Exit \n";
+    cout<<"\t\t***********************\n";
+    cout<<"\t\tEnter any choice....";
+    cin>>x;
+    cout<<"----------------------------------------------------------------------------\n";
+
+
+    if(x==1)
+    {
+
+       user[i].creat_acc();
+       i++;
+    }
+
+  if(x==4)
+  {
+    cout<<"Enter Account NO:";
+    cin>>a_no;
+
+    for(i=0;i<=5;i++)
+    {
+      x=user[i].abc_id();
+        if(x==a_no)
+        {
+
+           break;
+        }
+    }
+
+    user[i].enquiry();
+
+  }
+
+  if(x==2)
+  {
+      //int a_num;
+      cout<<"Enter Account No:";
+      cin>>a_no;
+
+      for(i=0;i<=5;i++)
+      {
+          x=user[i].abc_id();
+          if(x==a_no)
+          {
+              break;
+          }
+      }
+     user[i].deposite();
+  }
+
+
+  if(x==3)
+  {
+     cout<<"Enter account no";
+     cin>>a_no;
+
+     for(i=0;i<=5;i++)
+     {
+        x=user[i].abc_id();
+        if(x==a_no)
+        {
+            break;
+        }
+     }
+     user[i].withdraw();
+
+  }
+
+  if(x==5)
+  {
+    cout<<"Enter account No:";
+    cin>>a_no;
+
+    for(i=0;i<=5;i++)
+    {
+        x=user[i].abc_id();
+        if(x==a_no)
+        {
+            break;
+        }
+    }
+
+   user[i].changepass();
+
+  }
+
+  if(x==6)
+  {
+     cout<<"Enter Your Account id:";
+      cin>>a_no;
+
+
+
+     for(i=0;i<=5;i++)
+     {
+         x=user[i].abc_id();
+         if(x==a_no)
+         {
+           break;
+        }
+
+     }
+     user[i].send();
+     q=user[i].getamt();
+
+      cout<<" In Which Account Do you want to transfer money";
+      cin>>a2_no;
+
+     for(c=0;c<=5;c++)
+    {
+         z=user[c].abc_id();
+         if(z==a2_no)
+         {
+             break;
+       }
+    }
+
+
+    user[c].bal=user[c].bal+q;
+
+
+
+
+         cout<<"amount has transfered";
+         system("pause");
+     }
+
+  }
+
+  if(x==7)
+  {
+      exit(0);
+  }
+
+  else if(x!=1&&x!=2&&x!=3&&x!=4&&x!=5&&x!=13)
+    cout<<"Select correct choice";
+
+
+    system("CLS");
+
+  }
+
+
+
+
+
+
